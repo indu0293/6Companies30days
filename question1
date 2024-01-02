@@ -1,0 +1,31 @@
+q1: 2513. Minimize the Maximum of Two Arrays
+
+#define ll long long
+class Solution {
+public:
+
+bool satisfy(ll d1, ll d2, ll c1, ll c2, ll mid){
+        ll isDivsible1= mid / d1 , isDivsible2= mid / d2;
+        ll notDivsible1=mid - isDivsible1, notDivsible2= mid - isDivsible2;
+        ll notbyBoth = mid - mid/lcm(d1,d2);
+
+        if(notDivsible1>=c1 && notDivsible2>= c2 && notbyBoth>= c1 + c2){
+            return true;
+
+        }
+        return false;
+}
+    int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int uniqueCnt2) {
+        ll ans = INT_MAX, l=1, h=INT_MAX;
+        while(l<=h){
+            ll mid= l+(h-l)/2;
+            if (satisfy(divisor1, divisor2, uniqueCnt1, uniqueCnt2,mid )){
+              ans=min(ans,mid);
+              h=mid-1;
+            }else{
+               l=mid+1;
+            }
+        }
+        return ans;
+    }
+};
