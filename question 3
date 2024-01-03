@@ -1,0 +1,48 @@
+ques 3: 2343. Query Kth Smallest Trimmed Number
+
+
+class Solution {
+
+public:
+  vector<pair<string, int>> getStringsInSortedOrder(vector<string>& nums, int len) {
+    int n = nums.size();
+    int initLen = nums[0].size();
+    vector<pair<string, int>> list;
+
+    for (int i = 0; i < n; i++) {
+      string x = nums[i].substr(initLen - len);
+      while (!x.empty() && x[0] == '0') {
+        x.erase(0, 1);
+      }
+      list.push_back({x, i});
+    }
+
+    sort(list.begin(), list.end(), [](const pair<string, int>& a, const pair<string, int>& b) {
+      if (a.first.size() != b.first.size()) {
+        return a.first.size() < b.first.size();
+      } else if (a.first != b.first) {
+        return a.first < b.first;
+      } else {
+        return a.second < b.second;
+      }
+    });
+
+    return list;
+  }
+
+  vector<int> smallestTrimmedNumbers(vector<string>& nums, vector<vector<int>>& queries) {
+    int m = queries.size();
+    int n = nums.size();
+    int len = nums[0].size();
+    vector<int> ans(m);
+
+    for (int i = 0; i < m; i++) {
+      int trim = queries[i][1];
+      int kSmallest = queries[i][0];
+      vector<pair<string, int>> list = getStringsInSortedOrder(nums, trim);
+      ans[i] = list[kSmallest - 1].second;
+    }
+
+    return ans;
+  }
+};
