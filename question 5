@@ -1,0 +1,47 @@
+519. Random Flip Matrix
+
+getting :Time Limit Exceeded
+class Solution {
+public:
+    Solution(int m, int n) : m(m), n(n), totalZeros(m * n) {
+        matrix.resize(m, vector<int>(n, 0));
+    }
+
+    vector<int> flip() {
+        if (totalZeros == 0) return {};
+
+        int randomIndex = rand() % totalZeros;
+        int chosenIndex = -1;
+
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (matrix[i][j] == 0) {
+                    if (randomIndex == 0) {
+                        chosenIndex = i * n + j;
+                    }
+                    randomIndex--;
+                }
+            }
+        }
+
+        // Convert chosenIndex to [i, j] coordinates
+        int i = chosenIndex / n;
+        int j = chosenIndex % n;
+
+        // Flip the value and update totalZeros
+        matrix[i][j] = 1;
+        totalZeros--;
+
+        return {i, j};
+    }
+
+    void reset() {
+        fill(matrix.begin(), matrix.end(), vector<int>(n, 0));
+        totalZeros = m * n;
+    }
+
+private:
+    int m, n;
+    int totalZeros;
+    vector<vector<int>> matrix;
+};
