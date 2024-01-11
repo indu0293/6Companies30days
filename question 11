@@ -1,0 +1,32 @@
+1373. Maximum Sum BST in Binary Tree
+
+class Solution {
+public:
+    int maxSumBST(TreeNode* root) {
+        helper(root);
+        return result;  
+    }
+
+    vector<int> helper(TreeNode* root) {
+        if (root == nullptr) {
+            return {INT_MAX, INT_MIN, 0, 1}; 
+        }
+
+        vector<int> left = helper(root->left);
+        vector<int> right = helper(root->right);
+
+        int sum = left[2] + root->val + right[2];
+
+        // Check for BST validity and update result accordingly
+        if (left[3] == 1 && right[3] == 1 &&
+            root->val > left[1] && root->val < right[0]) {
+            result = max(result, sum);
+            return {min(root->val, left[0]), max(root->val, right[1]), sum, 1};
+        } else {
+            return {INT_MIN, INT_MAX, 0, 0};  
+        }
+    }
+
+private:
+    int result = 0;  
+};
