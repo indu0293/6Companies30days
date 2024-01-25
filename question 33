@@ -1,0 +1,21 @@
+532. K-diff Pairs in an Array
+
+class Solution {
+public:
+    int findPairs(vector<int>& nums, int k) {
+        int count=0;
+      if(k<0){
+          return 0;
+      }  
+      unordered_map<int,int>mp;
+      for(int n:nums){
+          mp[n]++;
+      }
+      for(auto it:mp){
+          if((!k && it.second >1)||(k && mp.count(it.first+k))){
+              count++;
+          }
+      }
+    return count;
+    }
+};
