@@ -1,0 +1,26 @@
+331. Verify Preorder Serialization of a Binary Tree
+
+class Solution {
+public:
+    bool isValidSerialization(string preorder) {
+        vector<string> nodes;
+        stringstream ss(preorder);
+        string node;
+
+        while (getline(ss, node, ',')) {
+            nodes.push_back(node);
+        }
+        int vacancy = 1;
+        for (const string& node : nodes) {
+            // visiting a node
+            vacancy--;
+            if (vacancy < 0) {
+                return false;
+            }
+            if (node != "#") {
+                vacancy += 2;
+            }
+        }
+        return vacancy == 0;
+    }
+};
