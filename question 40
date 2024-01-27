@@ -1,0 +1,59 @@
+692. Top K Frequent Words
+
+//brute force
+class Solution {
+public:
+    static bool compare(pair<string, int>& a, pair<string, int>& b) {
+    return (a.second > b.second) || (a.second == b.second && a.first < b.first);
+}
+    vector<string> topKFrequent(vector<string>& words, int k) {
+    unordered_map<string, int> freq;
+    for (const string& word : words) {
+        freq[word]++;
+    }
+    // vector from hashmap
+     vector<pair<string, int>> v(freq.begin(), freq.end());
+      sort(v.begin(), v.end(), compare);
+      vector<string> result;
+
+    for (int i = 0; i < k; ++i) {
+        result.push_back(v[i].first);
+    }
+
+    return result;
+}
+
+       
+};
+
+// with min heap
+class Solution {
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+    unordered_map<string,int>mp;
+    for(const string&word:words ){
+        mp[word]++;
+    }
+
+    auto compare = [](const pair<int, string>& a, const pair<int, string>& b) {
+            return (a.first > b.first) || (a.first == b.first && a.second < b.second);
+        };
+        // min heap
+        priority_queue<pair<int, string>, vector<pair<int, string>>, decltype(compare)> pq(compare);
+             for (const auto& it : mp) {
+                pq.push({it.second, it.first});
+                 if (pq.size() > k) {
+                pq.pop();
+            }
+        }
+         vector<string> result;
+            while (!pq.empty()) {
+            result.push_back(pq.top().second);
+            pq.pop();
+        }
+     reverse(result.begin(), result.end());
+     return result;
+}
+
+       
+};
