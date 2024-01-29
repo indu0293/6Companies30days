@@ -1,0 +1,28 @@
+669. Trim a Binary Search Tree
+
+class Solution {
+public:
+     TreeNode* trim(TreeNode* root, int low, int high) {
+         if(root==NULL)
+          return NULL;
+        TreeNode* leftnode=trim(root->left,low,high);
+        if(leftnode!=root->left){
+            root->left=leftnode;
+        }
+        if(leftnode!=root->left){
+            root->left=leftnode;
+        }
+        TreeNode* rightnode=trim(root->right,low,high);
+        if(rightnode!=root->right){
+            root->right=rightnode;
+        }
+        if(root->val>high || root->val<low){
+            return (root->left)? root->left:root->right;
+        }
+        return root;
+
+     }
+    TreeNode* trimBST(TreeNode* root, int low, int high) {
+        return trim(root,low,high);
+    }
+};
