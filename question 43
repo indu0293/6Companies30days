@@ -1,0 +1,37 @@
+139. Word Break
+
+class Solution {
+public:
+    unordered_set<string> st;
+    int n;
+    int t[301];
+    bool solve(int idx, string &s) {
+        if (idx >= n) {
+            return true;
+        }
+        if(t[idx]!=-1){
+            return t[idx];
+        }
+        if (st.find(s.substr(idx)) != st.end()) {
+            return true;
+        }
+        for (int len = 1; idx + len <= n; len++) {
+            string temp = s.substr(idx, len);
+            if (st.find(temp) != st.end() && solve(idx + len, s)) {
+                return t[idx]=true;
+            }
+        }
+        return t[idx]= false;
+    }
+
+    bool wordBreak(string s, vector<string>& wordDict) {
+        n = s.length();
+        memset(t,-1,sizeof(t));
+        for (string &word : wordDict) {
+            st.insert(word);
+        }
+
+        return solve(0, s);
+    }
+};
+
