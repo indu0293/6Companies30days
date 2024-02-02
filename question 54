@@ -1,0 +1,38 @@
+2225. Find Players With Zero or One Losses
+
+class Solution {
+public:
+    vector<vector<int>> findWinners(vector<vector<int>>& matches) {
+        unordered_map<int, int> winnerCount;  
+        unordered_map<int, int> loserCount;   
+        for (const auto& match : matches) {
+            int winner = match[0];
+            int loser = match[1];
+
+            winnerCount[winner]++;
+            loserCount[loser]++;
+        }
+
+        vector<int> noLosses;
+        vector<int> oneLoss;
+
+        
+        for (const auto& [player, winCount] : winnerCount) {
+            if (loserCount.count(player) == 0) {  
+                noLosses.push_back(player);
+            }
+        }
+
+       
+        for (const auto& [player, lossCount] : loserCount) {
+            if (lossCount == 1) {  
+                oneLoss.push_back(player);
+            }
+        }
+
+        sort(noLosses.begin(), noLosses.end());
+        sort(oneLoss.begin(), oneLoss.end());
+
+        return {noLosses, oneLoss};
+    }
+};
