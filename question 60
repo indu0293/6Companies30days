@@ -1,0 +1,39 @@
+1600. Throne Inheritance
+
+class ThroneInheritance {
+public:
+    ThroneInheritance(string kingName) {
+        root = kingName;
+        map[root] = vector<string>();
+    }
+
+    void birth(string parentName, string childName) {
+        map[parentName].push_back(childName);
+        map[childName] = vector<string>();
+    }
+
+    void death(string name) {
+        set.insert(name);
+    }
+
+    vector<string> getInheritanceOrder() {
+        vector<string> result;
+        dfs(root, result);
+        return result;
+    }
+
+private:
+    string root;
+    unordered_map<string, vector<string>> map;
+    unordered_set<string> set;
+
+    void dfs(string root, vector<string>& result) {
+        if (!set.count(root)) {
+            result.push_back(root);
+        }
+
+        for (const string& child : map[root]) {
+            dfs(child, result);
+        }
+    }
+};
